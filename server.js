@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const { connectDB } = require("./config/dbConn");
 const mongoose = require("mongoose");
-const { corsOptions } = require("./config/corsOptions"); // This should be correct
+const { corsOptions } = require("./config/corsOptions");
 const cookieParser = require("cookie-parser");
 
 const app = express();

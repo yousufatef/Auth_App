@@ -5,10 +5,11 @@ const corsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
+      console.error(`CORS Error: ${origin} not allowed`);
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // Ensure this is correct
+  credentials: true,
   optionsSuccessStatus: 200,
 };
 
