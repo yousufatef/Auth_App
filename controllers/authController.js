@@ -4,14 +4,15 @@ const User = require("../models/User");
 
 const register = async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
-  if ((!first_name || !last_name, !email || !password)) {
+  if (!first_name || !last_name || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const foundUser = await User.findOne({ email }).exec();
   if (foundUser) {
-    return res.status(400).json({ message: "User already exists" });
+    return res.status(401).json({ message: "User already exists" });
   }
   const hashedPassword = await bcrypt.hash(password, 10);
+
   const user = await User.create({
     first_name,
     last_name,
@@ -20,16 +21,16 @@ const register = async (req, res) => {
   });
   const accessToken = jwt.sign(
     {
-      userInfo: {
+      UserInfo: {
         id: user._id,
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "15m" }
+    { expiresIn: 10 }
   );
   const refreshToken = jwt.sign(
     {
-      userInfo: {
+      UserInfo: {
         id: user._id,
       },
     },
@@ -39,8 +40,8 @@ const register = async (req, res) => {
   res.cookie("jwt", refreshToken, {
     httpOnly: true, //accessible only by web server
     secure: true, //https
-    sameSite: "None", // cross-site cookie
-    maxAge: 7 * 24 * 60 * 60 * 1000, //expiration of cookie in browser
+    sameSite: "None", //cross-site cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   res.json({
     accessToken,
