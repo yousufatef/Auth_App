@@ -1,4 +1,3 @@
-const Error = require("mongoose");
 const allowedOrigins = require("./allowedOrigins");
 
 const corsOptions = {
@@ -9,7 +8,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  Credential: true,
+  credentials: true, // Fix typo here
   optionsSuccessStatus: 200,
 };
 

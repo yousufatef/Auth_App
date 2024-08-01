@@ -3,13 +3,14 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const { connectDB } = require("./config/dbConn");
 const mongoose = require("mongoose");
-const corsOptions = require("./config/corsOptions");
+const { corsOptions } = require("./config/corsOptions"); // Destructure correctly
 const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-connectDB(); // Call the function to connect to the database
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(cors(corsOptions));
@@ -32,6 +33,7 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something went wrong!");
 });
 
+// Start server once MongoDB connection is established
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => {
@@ -39,6 +41,7 @@ mongoose.connection.once("open", () => {
   });
 });
 
+// Handle MongoDB connection errors
 mongoose.connection.on("error", (err) => {
-  console.log(err);
+  console.error("MongoDB connection error:", err);
 });
