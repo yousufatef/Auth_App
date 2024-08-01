@@ -17,6 +17,9 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
+// Handle preflight requests
+app.options("*", cors(corsOptions)); // Ensure preflight requests are handled
+
 // Routes
 app.use("/", require("./routes/root"));
 app.use("/auth", require("./routes/authRoutes"));
@@ -30,7 +33,7 @@ app.use((req, res, next) => {
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  res.status(500).json({ message: "Something went wrong!" });
 });
 
 // Start server once MongoDB connection is established
