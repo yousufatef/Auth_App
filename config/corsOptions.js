@@ -1,4 +1,4 @@
-const allowedOrigins = require("./allowedOrigins");
+const { allowedOrigins } = require("./allowedOrigins");
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -8,7 +8,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // Fix typo here
+  credentials: true, // Ensure this is correct
   optionsSuccessStatus: 200,
 };
 

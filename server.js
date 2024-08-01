@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
-const { connectDB } = require("./config/dbConn");
+const { connectDB } = require("./config/connectDB");
 const mongoose = require("mongoose");
-const { corsOptions } = require("./config/corsOptions"); // Destructure correctly
+const { corsOptions } = require("./config/corsOptions"); // This should be correct
 const cookieParser = require("cookie-parser");
 
 const app = express();
